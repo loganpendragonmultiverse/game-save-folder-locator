@@ -1,0 +1,16 @@
+{
+  "version": 1,
+  "records": [
+    {
+      "id": "north-road-windows-demo",
+      "game": "North Road (fictional example)",
+      "os": "windows",
+      "platform": "standalone",
+      "path_type": "local",
+      "path": "{USERPROFILE}\\Saved Games\\North Road",
+      "source": "https://github.com/loganpendragonmultiverse/game-save-folder-locator/blob/main/examples/catalog.json",
+      "verified_on": "2026-07-26",
+      "notes": "Demonstration record only; North Road is fictional."
+    }
+  ]
+}
