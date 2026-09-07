@@ -3,7 +3,7 @@ from __future__ import annotations
 import argparse
 import json
 import sys
-from datetime import date
+from datetime import datetime, timezone
 from importlib.resources import files
 from pathlib import Path
 
@@ -24,7 +24,7 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument(
         "--confirm-path-check", action="store_true", help="Check only that directory's existence"
     )
-    parser.add_argument("--as-of", default=date.today().isoformat())
+    parser.add_argument("--as-of", default=datetime.now(timezone.utc).date().isoformat())
     args = parser.parse_args(argv)
     try:
         catalog_path = args.catalog or Path(
