@@ -1,4 +1,122 @@
 {
   "version": 1,
-  "records": []
+  "records": [
+    {
+      "id": "factorio-windows",
+      "game": "Factorio",
+      "os": "windows",
+      "platform": "Steam / standalone default",
+      "path_type": "configuration-dependent",
+      "path": "%APPDATA%/Factorio/saves",
+      "source": "https://wiki.factorio.com/Application_directory",
+      "verified_on": "2026-09-07",
+      "version_scope": "Source documentation reviewed on 2026-09-07; no specific game build tested.",
+      "confidence": "documented default; local installation unverified",
+      "notes": "Default installed layout. Portable ZIP installs and write-data overrides use a different location."
+    },
+    {
+      "id": "factorio-macos",
+      "game": "Factorio",
+      "os": "macos",
+      "platform": "Steam / standalone default",
+      "path_type": "configuration-dependent",
+      "path": "~/Library/Application Support/factorio/saves",
+      "source": "https://wiki.factorio.com/Application_directory",
+      "verified_on": "2026-09-07",
+      "version_scope": "Source documentation reviewed on 2026-09-07; no specific game build tested.",
+      "confidence": "documented default; local installation unverified",
+      "notes": "Default installed layout. Portable ZIP installs and write-data overrides use a different location."
+    },
+    {
+      "id": "factorio-linux",
+      "game": "Factorio",
+      "os": "linux",
+      "platform": "Steam / standalone default",
+      "path_type": "configuration-dependent",
+      "path": "~/.factorio/saves",
+      "source": "https://wiki.factorio.com/Application_directory",
+      "verified_on": "2026-09-07",
+      "version_scope": "Source documentation reviewed on 2026-09-07; no specific game build tested.",
+      "confidence": "documented default; local installation unverified",
+      "notes": "Default installed layout. Portable ZIP installs and write-data overrides use a different location."
+    },
+    {
+      "id": "stardew-valley-windows",
+      "game": "Stardew Valley",
+      "os": "windows",
+      "platform": "Steam / GOG native desktop",
+      "path_type": "configuration-dependent",
+      "path": "%APPDATA%/StardewValley/Saves",
+      "source": "https://wiki.stardewvalley.net/Saves",
+      "verified_on": "2026-09-07",
+      "version_scope": "Source documentation reviewed on 2026-09-07; no specific game build tested.",
+      "confidence": "documented default; local installation unverified",
+      "notes": "Native desktop layout. Linux XDG_CONFIG_HOME defaults to ~/.config. Flatpak, Heroic and Proton may differ."
+    },
+    {
+      "id": "stardew-valley-macos",
+      "game": "Stardew Valley",
+      "os": "macos",
+      "platform": "Steam / GOG native desktop",
+      "path_type": "configuration-dependent",
+      "path": "~/.config/StardewValley/Saves",
+      "source": "https://wiki.stardewvalley.net/Saves",
+      "verified_on": "2026-09-07",
+      "version_scope": "Source documentation reviewed on 2026-09-07; no specific game build tested.",
+      "confidence": "documented default; local installation unverified",
+      "notes": "Native desktop layout. Linux XDG_CONFIG_HOME defaults to ~/.config. Flatpak, Heroic and Proton may differ."
+    },
+    {
+      "id": "stardew-valley-linux",
+      "game": "Stardew Valley",
+      "os": "linux",
+      "platform": "Steam / GOG native desktop",
+      "path_type": "configuration-dependent",
+      "path": "$XDG_CONFIG_HOME/StardewValley/Saves",
+      "source": "https://wiki.stardewvalley.net/Saves",
+      "verified_on": "2026-09-07",
+      "version_scope": "Source documentation reviewed on 2026-09-07; no specific game build tested.",
+      "confidence": "documented default; local installation unverified",
+      "notes": "Native desktop layout. Linux XDG_CONFIG_HOME defaults to ~/.config. Flatpak, Heroic and Proton may differ."
+    },
+    {
+      "id": "openttd-windows",
+      "game": "OpenTTD",
+      "os": "windows",
+      "platform": "Native desktop default",
+      "path_type": "configuration-dependent",
+      "path": "~/Documents/OpenTTD/save",
+      "source": "https://github.com/OpenTTD/OpenTTD/blob/master/docs/directory_structure.md",
+      "verified_on": "2026-09-07",
+      "version_scope": "Source documentation reviewed on 2026-09-07; no specific game build tested.",
+      "confidence": "documented default; local installation unverified",
+      "notes": "Personal-directory layout; Linux requires XDG support. Portable configurations, redirected Documents and higher-priority save directories may differ."
+    },
+    {
+      "id": "openttd-macos",
+      "game": "OpenTTD",
+      "os": "macos",
+      "platform": "Native desktop default",
+      "path_type": "configuration-dependent",
+      "path": "~/Documents/OpenTTD/save",
+      "source": "https://github.com/OpenTTD/OpenTTD/blob/master/docs/directory_structure.md",
+      "verified_on": "2026-09-07",
+      "version_scope": "Source documentation reviewed on 2026-09-07; no specific game build tested.",
+      "confidence": "documented default; local installation unverified",
+      "notes": "Personal-directory layout; Linux requires XDG support. Portable configurations, redirected Documents and higher-priority save directories may differ."
+    },
+    {
+      "id": "openttd-linux",
+      "game": "OpenTTD",
+      "os": "linux",
+      "platform": "Native desktop default",
+      "path_type": "configuration-dependent",
+      "path": "$XDG_DATA_HOME/openttd/save",
+      "source": "https://github.com/OpenTTD/OpenTTD/blob/master/docs/directory_structure.md",
+      "verified_on": "2026-09-07",
+      "version_scope": "Source documentation reviewed on 2026-09-07; no specific game build tested.",
+      "confidence": "documented default; local installation unverified",
+      "notes": "Personal-directory layout; Linux requires XDG support. Portable configurations, redirected Documents and higher-priority save directories may differ."
+    }
+  ]
 }

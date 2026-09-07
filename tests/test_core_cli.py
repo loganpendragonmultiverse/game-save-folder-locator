@@ -79,7 +79,7 @@ def test_validation(tmp_path: Path, change: Callable[[dict[str, Any]], None], me
 
 def test_cli_default_and_safe_output(tmp_path: Path, capsys: pytest.CaptureFixture[str]) -> None:
     assert main(["--format", "json"]) == 0
-    assert json.loads(capsys.readouterr().out)["record_count"] == 0
+    assert json.loads(capsys.readouterr().out)["record_count"] == 9
     path = tmp_path / "catalog.json"
     write(path, catalog())
     output = tmp_path / "report.md"
