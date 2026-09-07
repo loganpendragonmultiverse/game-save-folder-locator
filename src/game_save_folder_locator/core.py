@@ -91,5 +91,9 @@ def render_markdown(report: dict[str, Any]) -> str:
         )
         if record.get("notes"):
             lines.append(f"- Notes: {record['notes']}")
+        if record.get("version_scope"):
+            lines.append(f"- Version scope: {record['version_scope']}")
+        if record.get("confidence"):
+            lines.append(f"- Confidence: {record['confidence']}")
         lines.append("")
     return "\n".join(lines).rstrip() + "\n"

@@ -17,3 +17,13 @@ The packaged catalog intentionally starts empty rather than publishing unverifie
 The tool does not scan a computer, expand environment variables, access cloud saves, or claim that every installation follows a documented default. Paths may change with game versions, stores, portable installations, compatibility layers, or user configuration. Requires Python 3.10 or newer.
 
 Part of the [Logan Pendragon Forge open-source collection](https://www.loganpendragonforge.com/open-source/). Licensed under the [MIT License](LICENSE).
+
+## Version 1.1.0: reviewed improvements
+
+Ship nine sourced save-folder records for Factorio, Stardew Valley and OpenTTD, with explicit path inspection and confidence labels.
+
+```bash
+save-folder-locator --game Factorio --os windows --format json
+```
+
+The catalog contains Windows, macOS and Linux documented defaults for three games, with source URLs, verification dates, configuration/store notes and version scope. Documentation was reviewed on 2026-09-07; no specific installed game build was tested. Portable/custom configurations may differ. `--inspect-id ID` previews one selected host-OS path; add `--confirm-path-check` to check only that directory's existence. Expansion permits known home/application-data variables and rejects unknown variables, traversal and network paths. Confidence remains documented-default/local-unverified until inspection, and evidence older than 180 days receives a stale label. No save contents are read or uploaded and no broad disk scan is performed.
