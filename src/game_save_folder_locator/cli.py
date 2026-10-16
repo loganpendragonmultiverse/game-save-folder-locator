@@ -7,6 +7,7 @@ from datetime import datetime, timezone
 from importlib.resources import files
 from pathlib import Path
 
+from .comparison import compare_catalogs, render_comparison_markdown
 from .core import OPERATING_SYSTEMS, PATH_TYPES, load_catalog, render_markdown, search
 from .inspection import inspect_record
 
@@ -14,6 +15,11 @@ from .inspection import inspect_record
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description="Search sourced game-save path templates.")
     parser.add_argument("--catalog", type=Path)
+    parser.add_argument(
+        "--compare-catalog",
+        type=Path,
+        help="Compare supplied catalog against --catalog by stable ID",
+    )
     parser.add_argument("--game")
     parser.add_argument("--os", choices=sorted(OPERATING_SYSTEMS))
     parser.add_argument("--platform")
@@ -30,9 +36,29 @@ def main(argv: list[str] | None = None) -> int:
         catalog_path = args.catalog or Path(
             str(files("game_save_folder_locator").joinpath("catalog.json"))
         )
-        report = search(
-            load_catalog(catalog_path), args.game, args.os, args.platform, args.path_type
-        )
+        if args.compare_catalog:
+            if not args.catalog:
+                raise ValueError("--compare-catalog requires an explicit --catalog baseline")
+            if any(
+                (
+                    args.game,
+                    args.os,
+                    args.platform,
+                    args.path_type,
+                    args.inspect_id,
+                    args.confirm_path_check,
+                )
+            ):
+                raise ValueError(
+                    "catalog comparison cannot combine with search or inspection flags"
+                )
+            report = compare_catalogs(
+                load_catalog(catalog_path), load_catalog(args.compare_catalog)
+            )
+        else:
+            report = search(
+                load_catalog(catalog_path), args.game, args.os, args.platform, args.path_type
+            )
         if args.confirm_path_check and not args.inspect_id:
             raise ValueError("--confirm-path-check requires --inspect-id")
         if args.inspect_id:
@@ -50,7 +76,11 @@ def main(argv: list[str] | None = None) -> int:
         rendered = (
             json.dumps(report, indent=2, ensure_ascii=False) + "\n"
             if args.format == "json"
-            else render_markdown(report)
+            else (
+                render_comparison_markdown(report)
+                if args.compare_catalog
+                else render_markdown(report)
+            )
         )
         if args.format == "markdown" and "inspection" in report:
             rendered += (

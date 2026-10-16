@@ -13,6 +13,10 @@ FIELDS = ("id", "game", "os", "platform", "path_type", "path", "source", "verifi
 
 def load_catalog(path: Path) -> dict[str, Any]:
     data = json.loads(path.read_text(encoding="utf-8"))
+    return validate_catalog(data)
+
+
+def validate_catalog(data: Any) -> dict[str, Any]:
     if not isinstance(data, dict) or data.get("version") != 1:
         raise ValueError("catalog must be a version 1 object")
     records = data.get("records")
@@ -39,9 +43,11 @@ def load_catalog(path: Path) -> dict[str, Any]:
             date.fromisoformat(record["verified_on"])
         except ValueError as exc:
             raise ValueError(f"record {record['id']} verified_on must be an ISO date") from exc
+        if "version_scope" in record and not isinstance(record["version_scope"], str):
+            raise TypeError(f"record {record['id']} version_scope must be text")
         if "notes" in record and not isinstance(record["notes"], str):
             raise TypeError(f"record {record['id']} notes must be text")
-    return data
+    return dict(data)
 
 
 def search(
