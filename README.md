@@ -12,7 +12,7 @@ save-folder-locator --catalog examples/catalog.json --game "North Road"
 save-folder-locator --catalog examples/catalog.json --os windows --format json
 ```
 
-The packaged catalog intentionally starts empty rather than publishing unverified paths. `examples/catalog.json` demonstrates the contribution format with an explicitly fictional game. Useful growth depends on reviewed contributions with reproducible sources; see [docs/CONTRIBUTING_RECORDS.md](docs/CONTRIBUTING_RECORDS.md).
+The packaged catalog contains nine sourced documented defaults. `examples/catalog.json` demonstrates the contribution format with an explicitly fictional game. Useful growth depends on reviewed contributions with reproducible sources; see [docs/CONTRIBUTING_RECORDS.md](docs/CONTRIBUTING_RECORDS.md).
 
 The tool does not scan a computer, expand environment variables, access cloud saves, or claim that every installation follows a documented default. Paths may change with game versions, stores, portable installations, compatibility layers, or user configuration. Requires Python 3.10 or newer.
 
@@ -27,3 +27,21 @@ save-folder-locator --game Factorio --os windows --format json
 ```
 
 The catalog contains Windows, macOS and Linux documented defaults for three games, with source URLs, verification dates, configuration/store notes and version scope. Documentation was reviewed on 2026-09-07; no specific installed game build was tested. Portable/custom configurations may differ. `--inspect-id ID` previews one selected host-OS path; add `--confirm-path-check` to check only that directory's existence. Expansion permits known home/application-data variables and rejects unknown variables, traversal and network paths. Confidence remains documented-default/local-unverified until inspection, and evidence older than 180 days receives a stale label. No save contents are read or uploaded and no broad disk scan is performed.
+
+## Compare contributions by record ID
+
+```bash
+save-folder-locator --catalog examples/catalog.json --compare-catalog examples/catalog.json --format json
+```
+
+Version 1.2.0 compares two explicitly supplied catalogs. Stable IDs identify added,
+removed, changed and unchanged records. Changed entries retain both complete
+records and list changed fields, including OS, platform/store, template, source,
+verification date and version scope. Duplicate IDs in either catalog fail validation.
+The comparison cannot combine with search or path-inspection flags.
+
+Different templates for the same game, OS, store and path type are listed as
+potential default conflicts on each side, including their dates and version scopes.
+They may describe distinct configurations: the report keeps both claims visible
+and never picks a winner. Source dates remain contributor claims. Comparison does
+not expand templates, check directories, read saves, fetch URLs or modify catalogs.
