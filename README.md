@@ -45,3 +45,19 @@ potential default conflicts on each side, including their dates and version scop
 They may describe distinct configurations: the report keeps both claims visible
 and never picks a winner. Source dates remain contributor claims. Comparison does
 not expand templates, check directories, read saves, fetch URLs or modify catalogs.
+
+## Validation and reporting boundaries
+
+Catalog version 1 must be an integer, dates use `YYYY-MM-DD`, and source URLs
+require an HTTP(S) hostname without embedded credentials. Optional confidence
+labels must be text. Preview variables are matched as complete names: `$HOME2`
+and `$HOMEcustom` are unknown variables, not HOME followed by a suffix.
+Confirmed path checks report inaccessible locations as errors instead of calling
+them absent; unconfirmed previews still do not check the selected path.
+Catalog comparison preserves nested JSON type differences in extension fields.
+
+Reports require a new destination, using an explicit existing-file/symlink guard
+and exclusive creation. This protects ordinary existing destinations and
+concurrent regular-file creation, not hostile concurrent filesystem mutation.
+Bundled source dates remain the original contributor evidence; no installed game
+build or current default path has been newly verified by these validation fixes.

@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.2.1 — 2026-10-20
+
+- Validate catalog version types, consistent YYYY-MM-DD dates and complete variable names before path preview.
+- Preserve nested JSON type changes in catalog comparison.
+- Distinguish inaccessible path checks from an absent directory without reading save contents.
+- Create reports exclusively with explicit dangling-link protection.
+
 ## 1.2.0 - 2026-10-16
 
 - Added report-only catalog comparison by stable record ID with complete before/after evidence.

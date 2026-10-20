@@ -27,3 +27,8 @@ potential default conflicts on each side, including their dates and version scop
 They may describe distinct configurations: the report keeps both claims visible
 and never picks a winner. Source dates remain contributor claims. Comparison does
 not expand templates, check directories, read saves, fetch URLs or modify catalogs.
+
+The 1.2.1 Gold audit hardens typed catalog/date/variable validation, preserves
+nested comparison evidence and handles inaccessible opt-in path checks honestly.
+It does not expand the nine-record catalog or claim newly verified game installs.
+Keep all native checks, source coverage, dependency audit and tag-installed tests.

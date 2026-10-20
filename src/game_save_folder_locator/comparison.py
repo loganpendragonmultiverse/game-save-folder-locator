@@ -9,6 +9,12 @@ from typing import Any
 from .core import validate_catalog
 
 
+def _same_json(left: Any, right: Any) -> bool:
+    return json.dumps(left, sort_keys=True, ensure_ascii=False) == json.dumps(
+        right, sort_keys=True, ensure_ascii=False
+    )
+
+
 def compare_catalogs(before: dict[str, Any], after: dict[str, Any]) -> dict[str, Any]:
     old = {record["id"]: record for record in validate_catalog(before)["records"]}
     new = {record["id"]: record for record in validate_catalog(after)["records"]}
@@ -17,7 +23,7 @@ def compare_catalogs(before: dict[str, Any], after: dict[str, Any]) -> dict[str,
         fields = sorted(
             key
             for key in old[record_id].keys() | new[record_id].keys()
-            if old[record_id].get(key) != new[record_id].get(key)
+            if not _same_json(old[record_id].get(key), new[record_id].get(key))
             or (key in old[record_id]) != (key in new[record_id])
         )
         if fields:
@@ -51,7 +57,9 @@ def compare_catalogs(before: dict[str, Any], after: dict[str, Any]) -> dict[str,
             "added": [new[key] for key in sorted(new.keys() - old.keys())],
             "removed": [old[key] for key in sorted(old.keys() - new.keys())],
             "changed": changed,
-            "unchanged_ids": sorted(key for key in old.keys() & new.keys() if old[key] == new[key]),
+            "unchanged_ids": sorted(
+                key for key in old.keys() & new.keys() if _same_json(old[key], new[key])
+            ),
             "potential_default_conflicts": conflicts,
             "interpretation": "Dates and sources are contributor claims. Conflicting templates "
             "may describe different versions or configurations; review both. "

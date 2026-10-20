@@ -4,14 +4,18 @@ from __future__ import annotations
 
 import os
 import re
-from datetime import date
+import stat
 from pathlib import Path
 from typing import Any
+
+from .core import parse_iso_date
 
 
 def inspect_record(
     record: dict[str, Any], *, confirmed: bool, as_of: str, variables: dict[str, str] | None = None
 ) -> dict[str, Any]:
+    if type(confirmed) is not bool:
+        raise TypeError("confirmed must be boolean")
     home = str(Path.home())
     values = (
         variables
@@ -35,20 +39,28 @@ def inspect_record(
             raise ValueError(f"Path variable {key} is unavailable")
         return values[key]
 
-    expanded = re.sub(r"%([A-Z_]+)%|\$([A-Z_]+)", substitute, template)
+    expanded = re.sub(
+        r"%([A-Za-z_][A-Za-z0-9_]*)%|\$([A-Za-z_][A-Za-z0-9_]*)", substitute, template
+    )
     if any(char in expanded for char in "*?<>$%") or expanded.startswith(("\\\\", "//")):
         raise ValueError("Only explicit local paths are supported; no wildcards or network paths")
     path = Path(expanded)
     if not path.is_absolute() or ".." in path.parts:
         raise ValueError("Expanded path must be absolute without parent traversal")
-    age = (date.fromisoformat(as_of) - date.fromisoformat(record["verified_on"])).days
+    age = (parse_iso_date(as_of) - parse_iso_date(record["verified_on"])).days
     if age < 0:
         raise ValueError("as_of predates the source verification")
+    directory_exists = None
+    if confirmed:
+        try:
+            directory_exists = stat.S_ISDIR(path.stat().st_mode)
+        except FileNotFoundError:
+            directory_exists = False
     return {
         "id": record["id"],
         "expanded_path": str(path),
         "checked": confirmed,
-        "directory_exists": path.is_dir() if confirmed else None,
+        "directory_exists": directory_exists,
         "source_age_days": age,
         "source_review": "stale" if age > 180 else "recent",
         "confidence": "Directory presence does not prove that the game actively uses this location.",
