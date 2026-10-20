@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import re
 from datetime import date
 from pathlib import Path
 from typing import Any
@@ -17,7 +18,11 @@ def load_catalog(path: Path) -> dict[str, Any]:
 
 
 def validate_catalog(data: Any) -> dict[str, Any]:
-    if not isinstance(data, dict) or data.get("version") != 1:
+    if (
+        not isinstance(data, dict)
+        or type(data.get("version")) is not int
+        or data.get("version") != 1
+    ):
         raise ValueError("catalog must be a version 1 object")
     records = data.get("records")
     if not isinstance(records, list):
@@ -37,17 +42,32 @@ def validate_catalog(data: Any) -> dict[str, Any]:
         if record["path_type"] not in PATH_TYPES:
             raise ValueError(f"record {record['id']} has an invalid path type")
         parsed = urlparse(record["source"])
-        if parsed.scheme not in {"http", "https"} or not parsed.netloc:
+        if (
+            parsed.scheme not in {"http", "https"}
+            or not parsed.hostname
+            or parsed.username is not None
+            or parsed.password is not None
+        ):
             raise ValueError(f"record {record['id']} requires an HTTP source URL")
+        if parsed.port is not None and not 0 < parsed.port < 65536:
+            raise ValueError(f"record {record['id']} requires a valid HTTP source port")
         try:
-            date.fromisoformat(record["verified_on"])
+            parse_iso_date(record["verified_on"])
         except ValueError as exc:
             raise ValueError(f"record {record['id']} verified_on must be an ISO date") from exc
         if "version_scope" in record and not isinstance(record["version_scope"], str):
             raise TypeError(f"record {record['id']} version_scope must be text")
         if "notes" in record and not isinstance(record["notes"], str):
             raise TypeError(f"record {record['id']} notes must be text")
+        if "confidence" in record and not isinstance(record["confidence"], str):
+            raise TypeError(f"record {record['id']} confidence must be text")
     return dict(data)
+
+
+def parse_iso_date(value: str) -> date:
+    if re.fullmatch(r"[0-9]{4}-[0-9]{2}-[0-9]{2}", value) is None:
+        raise ValueError("date must use YYYY-MM-DD")
+    return date.fromisoformat(value)
 
 
 def search(
